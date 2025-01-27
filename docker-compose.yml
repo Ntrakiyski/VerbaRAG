@@ -4,7 +4,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - 9999:9999
+      - 7632:7632
     environment:
       - WEAVIATE_URL_VERBA=http://weaviate:9999
       - OPENAI_API_KEY=$OPENAI_API_KEY
@@ -40,8 +40,8 @@ services:
       - http
     image: semitechnologies/weaviate:1.25.10
     ports:
-      - 9999:9999
-      - 3000:9999
+      - 7632:7632
+      - 3000:7632
     volumes:
       - weaviate_data:/var/lib/weaviate
     restart: on-failure:0
