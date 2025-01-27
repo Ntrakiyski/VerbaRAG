@@ -1,14 +1,12 @@
----
-
 services:
   verba:
     build:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - 9999:9999
     environment:
-      - WEAVIATE_URL_VERBA=http://weaviate:8080
+      - WEAVIATE_URL_VERBA=http://weaviate:9999
       - OPENAI_API_KEY=$OPENAI_API_KEY
       - COHERE_API_KEY=$COHERE_API_KEY
       - OLLAMA_URL=http://host.docker.internal:11434
@@ -24,7 +22,7 @@ services:
       weaviate:
         condition: service_healthy
     healthcheck:
-      test: wget --no-verbose --tries=3 --spider http://localhost:8000 || exit 1
+      test: wget --no-verbose --tries=3 --spider http://localhost:9999 || exit 1
       interval: 5s
       timeout: 10s
       retries: 5
@@ -37,18 +35,18 @@ services:
       - --host
       - 0.0.0.0
       - --port
-      - '8080'
+      - '9999'
       - --scheme
       - http
     image: semitechnologies/weaviate:1.25.10
     ports:
-      - 8080:8080
-      - 3000:8080
+      - 9999:9999
+      - 3000:9999
     volumes:
       - weaviate_data:/var/lib/weaviate
     restart: on-failure:0
     healthcheck:
-      test: wget --no-verbose --tries=3 --spider http://localhost:8080/v1/.well-known/ready || exit 1
+      test: wget --no-verbose --tries=3 --spider http://localhost:9999/v1/.well-known/ready || exit 1
       interval: 5s
       timeout: 10s
       retries: 5
@@ -86,9 +84,6 @@ services:
 volumes:
   weaviate_data: {}
 
-
 networks:
   ollama-docker:
     external: false
-  
-...
